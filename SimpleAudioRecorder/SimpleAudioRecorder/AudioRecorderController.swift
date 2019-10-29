@@ -10,7 +10,8 @@ import UIKit
 
 class AudioRecorderController: UIViewController {
     
-    let player = Player()
+    let player: Player
+    let recorder: Recorder
     
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var playButton: UIButton!
@@ -30,7 +31,8 @@ class AudioRecorderController: UIViewController {
     
     // Gets called when a view controller is created from a storyboard
     required init?(coder: NSCoder) {
-        print("init(coder))")
+        recorder = Recorder()
+        player = Player()
         super.init(coder: coder)
     }
 	
@@ -51,7 +53,7 @@ class AudioRecorderController: UIViewController {
 	}
     
     @IBAction func recordButtonPressed(_ sender: Any) {
-    
+        recorder.toggleRecoring()
     }
     
     private func updateViews() {

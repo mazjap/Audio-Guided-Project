@@ -39,6 +39,7 @@ class Recorder: NSObject {
         let format = AVAudioFormat(standardFormatWithSampleRate: 44_100, channels: 1)!
         
         do {
+            print("record path: \(filename.path)")
             audioRecorder = try AVAudioRecorder(url: filename, format: format)
         } catch {
             NSLog("Recording error: \(error)")
@@ -51,7 +52,7 @@ class Recorder: NSObject {
         audioRecorder?.stop()
     }
     
-    func toggle() {
+    func toggleRecoring() {
         if isRecording {
             stop()
         } else {
