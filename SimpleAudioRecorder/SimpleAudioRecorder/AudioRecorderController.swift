@@ -10,8 +10,8 @@ import UIKit
 
 class AudioRecorderController: UIViewController {
     
-    let player: Player
-    let recorder: Recorder
+    var player: Player
+    var recorder: Recorder
     
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var playButton: UIButton!
@@ -40,6 +40,7 @@ class AudioRecorderController: UIViewController {
 		super.viewDidLoad()
 
         player.delegate = self
+        recorder.delegate = self
 
         timeLabel.font = UIFont.monospacedDigitSystemFont(ofSize: timeLabel.font.pointSize,
                                                           weight: .regular)
@@ -57,13 +58,30 @@ class AudioRecorderController: UIViewController {
     }
     
     private func updateViews() {
-        let title = player.isPlaying ? "Pause" : "Play"
-        playButton.setTitle(title, for: .normal)
+        let recordTitle = recorder.isRecording ? "Stop Recording" : "Record"
+        let playTitle = player.isPlaying ? "Pause" : "Play"
+        playButton.setTitle(playTitle, for: .normal)
+        recordButton.setTitle(recordTitle, for: .normal)
     }
 }
 
 extension AudioRecorderController: PlayerDelegate {
     func playerDidChangeState(_ player: Player) {
         updateViews()
+    }
+}
+
+extension AudioRecorderController: RecorderDelegate {
+    func recorderDidChangeState(_ recorder: Recorder) {
+        updateViews()
+    }
+    
+    func recorderDidSaveFile(_ recorder: Recorder) {
+        updateViews()
+        //TODO: play the file
+        if let url = recorder.fileURL, !recorder.isRecording {
+            self.player = Player(url: url)
+            player.delegate = self
+        }
     }
 }

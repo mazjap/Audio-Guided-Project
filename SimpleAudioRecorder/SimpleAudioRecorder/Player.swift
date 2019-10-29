@@ -15,14 +15,15 @@ protocol PlayerDelegate {
 class Player: NSObject {
     var audioPlayer: AVAudioPlayer?
     var delegate: PlayerDelegate?
+    var url: URL
     
-    override init() {
-        let songURL = Bundle.main.url(forResource: "piano", withExtension: "mp3")!
+    init(url: URL = Bundle.main.url(forResource: "piano", withExtension: "mp3")!) {
+        self.url = url
         
         do {
-            self.audioPlayer = try AVAudioPlayer(contentsOf: songURL)
+            self.audioPlayer = try AVAudioPlayer(contentsOf: url)
         } catch {
-            NSLog("AudioPlayer error: \(error)")
+            NSLog("AudioPlayer error with url \(url): \(error)")
         }
         
         super.init()
