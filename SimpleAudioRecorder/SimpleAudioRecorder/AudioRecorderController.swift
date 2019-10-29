@@ -28,6 +28,7 @@ class AudioRecorderController: UIViewController {
 		return formatting
 	}()
     
+    // Gets called when a view controller is created from a storyboard
     required init?(coder: NSCoder) {
         print("init(coder))")
         super.init(coder: coder)

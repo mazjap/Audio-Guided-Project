@@ -22,4 +22,11 @@ class Player: NSObject {
         
     }
     
+    var isPlaying: Bool {
+        return audioPlayer?.isPlaying ?? false
+    }
+    
+    func play() {
+        audioPlayer?.play()
+    }
 }
