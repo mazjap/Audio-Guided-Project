@@ -37,6 +37,7 @@ class AudioRecorderController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
+        player.delegate = self
 
         timeLabel.font = UIFont.monospacedDigitSystemFont(ofSize: timeLabel.font.pointSize,
                                                           weight: .regular)
@@ -46,11 +47,21 @@ class AudioRecorderController: UIViewController {
 
 
     @IBAction func playButtonPressed(_ sender: Any) {
-
+        player.playPause()
 	}
     
     @IBAction func recordButtonPressed(_ sender: Any) {
     
     }
+    
+    private func updateViews() {
+        let title = player.isPlaying ? "Pause" : "Play"
+        playButton.setTitle(title, for: .normal)
+    }
 }
 
+extension AudioRecorderController: PlayerDelegate {
+    func playerDidChangeState(_ player: Player) {
+        updateViews()
+    }
+}
